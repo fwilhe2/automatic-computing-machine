@@ -10,6 +10,21 @@ async function run(): Promise<void> {
     await wait(parseInt(ms, 10))
     core.debug(new Date().toTimeString())
 
+    await core.summary
+      .addHeading('Test Results')
+      // .addCodeBlock(generateTestResults(), "js")
+      .addTable([
+        [
+          {data: 'File', header: true},
+          {data: 'Result', header: true}
+        ],
+        ['foo.js', 'Pass ✅'],
+        ['bar.js', 'Fail ❌'],
+        ['test.js', 'Pass ✅']
+      ])
+      .addLink('View staging deployment!', 'https://github.com')
+      .write()
+
     core.setOutput('time', new Date().toTimeString())
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
